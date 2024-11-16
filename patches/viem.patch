@@ -1,0 +1,56 @@
+diff --git a/_cjs/node/trustedSetups.js b/_cjs/node/trustedSetups.js
+index 0598de6f7f47e74a1898ef8297e7ac33b805274f..8248e439748de37a8f66f3f8a2e49dfaa88d7128 100644
+--- a/_cjs/node/trustedSetups.js
++++ b/_cjs/node/trustedSetups.js
+@@ -2,5 +2,5 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.mainnetTrustedSetupPath = void 0;
+ const node_path_1 = require("node:path");
+-exports.mainnetTrustedSetupPath = (0, node_path_1.resolve)(__dirname, '../trusted-setups/mainnet.json');
++exports.mainnetTrustedSetupPath = (0, node_path_1.resolve)(__dirname, '../../trusted-setups/mainnet.json');
+ //# sourceMappingURL=trustedSetups.js.map
+\ No newline at end of file
+diff --git a/_esm/node/trustedSetups.js b/_esm/node/trustedSetups.js
+index e3cf661db08f3e3c322f136ee50893318a847198..9992eba67c31691e83834987e4e3d68b98b627eb 100644
+--- a/_esm/node/trustedSetups.js
++++ b/_esm/node/trustedSetups.js
+@@ -5,5 +5,5 @@ const __filename = fileURLToPath(
+ // @ts-ignore
+ import.meta.url);
+ const __dirname = dirname(__filename);
+-export const mainnetTrustedSetupPath = resolve(__dirname, '../trusted-setups/mainnet.json');
++export const mainnetTrustedSetupPath = resolve(__dirname, '../../trusted-setups/mainnet.json');
+ //# sourceMappingURL=trustedSetups.js.map
+\ No newline at end of file
+diff --git a/_esm/node/trustedSetups_cjs.js b/_esm/node/trustedSetups_cjs.js
+index 501d091e3a7d05374d495d8420793ddc3a3572e4..6ea760e8dbc895ff5c1ca722d4b9c59e617f22fe 100644
+--- a/_esm/node/trustedSetups_cjs.js
++++ b/_esm/node/trustedSetups_cjs.js
+@@ -1,3 +1,3 @@
+ import { resolve } from 'node:path';
+-export const mainnetTrustedSetupPath = resolve(__dirname, '../trusted-setups/mainnet.json');
++export const mainnetTrustedSetupPath = resolve(__dirname, '../../trusted-setups/mainnet.json');
+ //# sourceMappingURL=trustedSetups_cjs.js.map
+\ No newline at end of file
+diff --git a/node/trustedSetups.ts b/node/trustedSetups.ts
+index e67110634ea45f4e584c238f29fb740df008647a..caa2cce9f3c5b2b093035dd1eb59af8f60da4f8a 100644
+--- a/node/trustedSetups.ts
++++ b/node/trustedSetups.ts
+@@ -10,5 +10,5 @@ const __dirname = dirname(__filename)
+ 
+ export const mainnetTrustedSetupPath = resolve(
+   __dirname,
+-  '../trusted-setups/mainnet.json',
++  '../../trusted-setups/mainnet.json',
+ )
+diff --git a/node/trustedSetups_cjs.ts b/node/trustedSetups_cjs.ts
+index 1297e31f0111044ba1ea4f3fbe1753e8a546c18f..704a577e20e578297e0b5e833da55d350bf7965b 100644
+--- a/node/trustedSetups_cjs.ts
++++ b/node/trustedSetups_cjs.ts
+@@ -2,5 +2,5 @@ import { resolve } from 'node:path'
+ 
+ export const mainnetTrustedSetupPath = resolve(
+   __dirname,
+-  '../trusted-setups/mainnet.json',
++  '../../trusted-setups/mainnet.json',
+ )

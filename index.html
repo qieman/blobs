@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain Data Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <h1>Submit Data to Blockchain</h1>
+  <form id="dataForm">
+    <label for="inputData">Enter some data:</label><br>
+    <input type="text" id="inputData" placeholder="Type something..." required>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="output" style="display: none;"></div>
+
+  <script>
+    document.getElementById('dataForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const inputData = document.getElementById('inputData').value;
+      const outputDiv = document.getElementById('output');
+
+      try {
+        // Sending the data to the backend server
+        const response = await fetch('http://localhost:3002/send-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: inputData }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to submit data. Please try again.');
+        }
+
+        const result = await response.json();
+        outputDiv.style.display = 'block';
+        outputDiv.className = 'output';
+        outputDiv.textContent = `Transaction Hash: ${result.hash}`;
+      } catch (error) {
+        outputDiv.style.display = 'block';
+        outputDiv.className = 'output error';
+        outputDiv.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
