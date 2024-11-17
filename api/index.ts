@@ -1,7 +1,7 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
 import { parseGwei, stringToHex, toBlobs } from 'viem';
 import { client } from './client';
 import { kzg } from './kzg';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -10,19 +10,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { data } = req.body;
 
-  if (!data || typeof data !== 'string') {
-    return res.status(400).json({ error: 'Valid data is required' });
+  if (!data) {
+    return res.status(400).json({ error: 'Data is required' });
   }
 
   try {
-    // Convert the data to a hex string, create blobs, and send a transaction
-    const hexData = stringToHex(data); // Convert data to hex
-    const blobs = toBlobs({ data: hexData }); // Generate blobs
-
+    const blobs = toBlobs({ data: stringToHex(data) });
     const hash = await client.sendTransaction({
       blobs,
       kzg,
-      maxFeePerBlobGas: parseGwei('300'), // Parse Gwei value
+      maxFeePerBlobGas: parseGwei('300'),
       to: '0x0000000000000000000000000000000000000000',
     });
 
@@ -32,3 +29,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(500).json({ error: error.message });
   }
 }
+
