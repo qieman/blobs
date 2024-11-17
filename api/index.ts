@@ -4,17 +4,17 @@ import { kzg } from './kzg';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
-
-  const { data } = req.body;
-
-  if (!data) {
-    return res.status(400).json({ error: 'Data is required' });
-  }
-
   try {
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
+    const { data } = req.body;
+
+    if (!data) {
+      return res.status(400).json({ error: 'Data is required' });
+    }
+
     const blobs = toBlobs({ data: stringToHex(data) });
     const hash = await client.sendTransaction({
       blobs,
@@ -23,10 +23,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       to: '0x0000000000000000000000000000000000000000',
     });
 
-    res.status(200).json({ hash });
+    return res.status(200).json({ hash });
   } catch (error) {
     console.error('Error sending transaction:', error);
-    res.status(500).json({ error: error.message });
+
+    // Always return a JSON response
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      details: error.message || 'An unexpected error occurred',
+    });
   }
 }
-
