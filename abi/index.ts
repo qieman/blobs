@@ -1,46 +1,21 @@
-// index.ts
-import express from 'express';
-import cors from 'cors';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import { parseGwei, stringToHex, toBlobs } from 'viem';
-import { account, client } from './client';
-import { kzg}  from './kzg';
+import { client } from './client';
+import { kzg } from './kzg';
 
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-
-const app = express();
-app.use(express.json());
-app.use(cors());
-
-// API endpoint to receive data and create blockchain transaction
-app.post('/send-data', async (req, res) => {
   const { data } = req.body;
-
-  function stringToHex(jsonObject) {
-    // Convert the object to a JSON string
-    const jsonString = JSON.stringify(jsonObject);
-
-    // Convert the JSON string to hex
-    let hexString = '';
-    for (let i = 0; i < jsonString.length; i++) {
-        hexString += jsonString.charCodeAt(i).toString(16).padStart(2, '0');
-    }
-
-    return hexString;
-}
-
-const hexResult = stringToHex(data);
-
-  console.log(req.body)
 
   if (!data) {
     return res.status(400).json({ error: 'Data is required' });
   }
 
   try {
-    // Convert the data to a hex string, create blobs, and send a transaction
-    const blobs = toBlobs({ data: stringToHex(req.body) });
-
-    console.log("blobs",blobs)
+    const blobs = toBlobs({ data: stringToHex(data) });
 
     const hash = await client.sendTransaction({
       blobs,
@@ -49,13 +24,13 @@ const hexResult = stringToHex(data);
       to: '0x0000000000000000000000000000000000000000',
     });
 
-
-    res.json({ hash });
+    res.status(200).json({ hash });
   } catch (error) {
     console.error('Error sending transaction:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Transaction failed', details: error.message });
   }
-});
+}
+
 
 // Start the server
 const PORT = process.env.PORT || 3002;
