@@ -46,7 +46,7 @@
 
       try {
         // Sending the data to the backend server
-        const response = await fetch('http://localhost:3002/send-data', {
+        const response = await fetch('/send-data', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
