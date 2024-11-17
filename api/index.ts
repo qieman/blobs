@@ -10,18 +10,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { data } = req.body;
 
-  if (!data) {
-    return res.status(400).json({ error: 'Data is required' });
+  if (!data || typeof data !== 'string') {
+    return res.status(400).json({ error: 'Valid data is required' });
   }
 
   try {
     // Convert the data to a hex string, create blobs, and send a transaction
-    const blobs = toBlobs({ data: stringToHex(data) });
+    const hexData = stringToHex(data); // Convert data to hex
+    const blobs = toBlobs({ data: hexData }); // Generate blobs
 
     const hash = await client.sendTransaction({
       blobs,
       kzg,
-      maxFeePerBlobGas: parseGwei('300'),
+      maxFeePerBlobGas: parseGwei('300'), // Parse Gwei value
       to: '0x0000000000000000000000000000000000000000',
     });
 
@@ -31,9 +32,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(500).json({ error: error.message });
   }
 }
-
-// Start the server
-const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
