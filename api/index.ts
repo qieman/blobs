@@ -12,7 +12,13 @@ const client = createWalletClient({
   transport: http(),
 });
 
-import { kzg } from './kzg';
+import cKzg from "c-kzg";
+import { setupKzg } from "viem";
+import { mainnetTrustedSetupPath } from "viem/node";
+
+const kzg = setupKzg(cKzg, mainnetTrustedSetupPath);
+
+
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
