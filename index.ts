@@ -58,7 +58,7 @@ const hexResult = stringToHex(req.body);
 });
 
 // Start the server
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
