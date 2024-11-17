@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1>Submit Data to Blockchain</h1>
+      <h1>Submit Data to Blob</h1>
       {!walletAddress ? (
         <button onClick={connectWallet} style={styles.connectButton}>
           Connect MetaMask Wallet
